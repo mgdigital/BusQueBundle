@@ -1,0 +1,50 @@
+services:
+
+    busque.queue_name_resolver.classname:
+        class: MGDigital\BusQue\ClassNameQueueNameResolver
+
+    busque.command_serializer.php:
+        class: MGDigital\BusQue\Serializer\PHPCommandSerializer
+
+    busque.command_id_generator.object_hash:
+        class: MGDigital\BusQue\IdGenerator\ObjectHashIdGenerator
+
+    busque.queue_adapter.predis:
+        class: MGDigital\BusQue\Predis\PredisAdapter
+        arguments: [ '@busque.predis_client' ]
+
+    busque.scheduler_adapter.predis:
+        alias: busque.queue_adapter.predis
+
+    busque.system_clock:
+        class: MGDigital\BusQue\SystemClock
+
+    busque.clock:
+        alias: busque.system_clock
+
+    busque.commandbus_adapter.tactician:
+        class: MGDigital\BusQue\Tactician\CommandBusAdapter
+        arguments: [ '@tactician.commandbus' ]
+
+    busque.error_handler:
+        class: MGDigital\BusQue\Logging\LoggingErrorHandler
+        arguments: [ '@logger' ]
+
+    busque.command_handler:
+        class: MGDigital\BusQue\CommandHandler
+        arguments: [ '@busque.implementation' ]
+        tags:
+            - { name: tactician.handler, command: MGDigital\BusQue\QueuedCommand }
+            - { name: tactician.handler, command: MGDigital\BusQue\ScheduledCommand }
+
+    busque.console.queue_worker_command:
+        class: MGDigital\BusQue\Console\QueueWorkerCommand
+        arguments: [ '@service_container' ]
+        tags:
+            - { name: console.command }
+
+    busque.console.scheduler_worker_command:
+        class: MGDigital\BusQue\Console\SchedulerWorkerCommand
+        arguments: [ '@service_container' ]
+        tags:
+            - { name: console.command }

@@ -1,0 +1,10 @@
+default:
+    suites:
+        busque:
+            type: symfony_bundle
+            bundle: MGDigitalBusQueBundle
+            contexts:
+                - MGDigital\BusQueBundle\Features\Context\FeatureContext
+
+    extensions:
+        Behat\Symfony2Extension: ~

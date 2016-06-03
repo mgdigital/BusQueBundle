@@ -21,6 +21,13 @@ Feature: Command Bus Queue
     Then there should be 1 commands in the queue
     And I queue "third_test_command" with ID "another_command_id"
     Then there should be 2 commands in the queue
+    And I run the queue worker
+    And I run the queue worker
+    Then there should be 0 commands in the queue
+    And I queue "test_command" with ID "test_command_id"
+    Then there should be 1 commands in the queue
+    And I run the queue worker
+    Then there should be 0 commands in the queue
 
   Scenario: Queuing a command which fails
     Given I queue "test_command"

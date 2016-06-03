@@ -24,7 +24,7 @@ Feature: Command Bus Queue
 
   Scenario: Queuing a command which fails
     Given I queue "test_command"
-    And the command will throw an exception when it handled
+    And the command will throw an exception when it is handled
     Then the command should have a status of "queued"
     When I run the queue worker
     Then the command should have a status of "failed"

@@ -47,7 +47,7 @@ class FeatureContext implements SnippetAcceptingContext, KernelAwareContext
         $this->commandIdGenerator = $this->prophet->prophesize(CommandIdGeneratorInterface::class);
         $this->commandIdGenerator->generateId(Argument::any())->willReturn('test_command_id');
         $this->queueNameResolver = $this->prophet->prophesize(QueueNameResolverInterface::class);
-        $this->queueNameResolver->resolveQueueName('test_command')->willReturn('test_queue');
+        $this->queueNameResolver->resolveQueueName(Argument::any())->willReturn('test_queue');
         $this->clock = $this->prophet->prophesize(ClockInterface::class);
         $this->implementation = $this->getKernel()->getContainer()->get(self::SERVICE_ID)
             ->setCommandBusAdapter($this->commandBus->reveal())
@@ -84,13 +84,25 @@ class FeatureContext implements SnippetAcceptingContext, KernelAwareContext
     }
 
     /**
-     * @Given I queue a command
+     * @Given I queue :command
      */
-    public function iQueueACommand()
+    public function iQueueACommand($command)
     {
-        $queuedCommand = new QueuedCommand('test_command', 'test_command_id');
+        $this->queueCommand($command);
+    }
+
+    /**
+     * @Given I queue :command with ID :id
+     */
+    public function iQueueACommandWithId($command, string $id)
+    {
+        $this->queueCommand($command, $id);
+    }
+
+    private function queueCommand($command, string $id = null)
+    {
         $handler = new CommandHandler($this->implementation);
-        $handler->handleQueued($queuedCommand);
+        $handler->handleQueued(new QueuedCommand($command, $id ?? 'test_command_id'));
     }
 
     /**
@@ -122,14 +134,26 @@ class FeatureContext implements SnippetAcceptingContext, KernelAwareContext
     }
 
     /**
-     * @Given I schedule a command to run at :arg1::arg2
+     * @Given I schedule :command to run at :arg1::arg2
      */
-    public function iScheduleACommandToRunAt($arg1, $arg2)
+    public function iScheduleACommandToRunAt($command, $arg1, $arg2)
+    {
+        $this->iScheduleACommandWithIdToRunAt($command, 'test_command_id', $arg1, $arg2);
+    }
+
+    /**
+     * @Given I schedule :command with ID :id to run at :arg1::arg2
+     */
+    public function iScheduleACommandWithIdToRunAt($command, $id, $arg1, $arg2)
     {
         $time = new \DateTime('@' . mktime($arg1, $arg2));
-        $command = new ScheduledCommand('test_command', $time, 'test_command_id');
+        $this->scheduleCommand($command, $time, $id);
+    }
+
+    private function scheduleCommand($command, \DateTime $dateTime, string $id)
+    {
         $hander = new CommandHandler($this->implementation);
-        $hander->handleScheduled($command);
+        $hander->handleScheduled(new ScheduledCommand($command, $dateTime, $id));
     }
 
     /**

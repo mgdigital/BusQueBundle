@@ -26,6 +26,7 @@ Feature: Command Bus Queue
     Given the queue has been emptied
     And I schedule "test_command" to run at 15:00
     And the time is 14:50
+    And the command should have a status of "scheduled"
     When I run the scheduler worker
     Then there should be 0 commands in the queue
     Then the time is 15:01

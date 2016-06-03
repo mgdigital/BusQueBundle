@@ -106,6 +106,14 @@ class FeatureContext implements SnippetAcceptingContext, KernelAwareContext
     }
 
     /**
+     * @Given the command will throw an exception when it handled
+     */
+    public function theCommandWillThrowAnExceptionWhenItHandled()
+    {
+        $this->commandBus->handle('test_command')->willThrow(new \Exception());
+    }
+
+    /**
      * @When I run the queue worker
      */
     public function iRunTheQueueWorker()

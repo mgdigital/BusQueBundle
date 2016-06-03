@@ -22,6 +22,13 @@ Feature: Command Bus Queue
     And I queue "third_test_command" with ID "another_command_id"
     Then there should be 2 commands in the queue
 
+  Scenario: Queuing a command which fails
+    Given I queue "test_command"
+    And the command will throw an exception when it handled
+    Then the command should have a status of "queued"
+    When I run the queue worker
+    Then the command should have a status of "failed"
+
   Scenario: Scheduling a command
     Given the queue has been emptied
     And I schedule "test_command" to run at 15:00

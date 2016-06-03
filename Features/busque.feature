@@ -24,10 +24,13 @@ Feature: Command Bus Queue
     And I run the queue worker
     And I run the queue worker
     Then there should be 0 commands in the queue
+    And the command should have a status of "completed"
     And I queue "test_command" with ID "test_command_id"
     Then there should be 1 commands in the queue
+    And the command should have a status of "queued"
     And I run the queue worker
     Then there should be 0 commands in the queue
+    And the command should have a status of "completed"
 
   Scenario: Queuing a command which fails
     Given I queue "test_command"

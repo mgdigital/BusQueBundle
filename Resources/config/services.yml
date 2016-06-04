@@ -38,13 +38,13 @@ services:
             - { name: tactician.handler, command: MGDigital\BusQue\ScheduledCommand }
 
     busque.console.queue_worker_command:
-        class: MGDigital\BusQue\Console\QueueWorkerCommand
+        class: MGDigital\BusQueBundle\Console\QueueWorkerCommand
         arguments: [ '@service_container' ]
         tags:
             - { name: console.command }
 
     busque.console.scheduler_worker_command:
-        class: MGDigital\BusQue\Console\SchedulerWorkerCommand
+        class: MGDigital\BusQueBundle\Console\SchedulerWorkerCommand
         arguments: [ '@service_container' ]
         tags:
             - { name: console.command }

@@ -48,3 +48,7 @@ services:
         arguments: [ '@service_container' ]
         tags:
             - { name: console.command }
+
+    busque:
+        class: MGDigital\BusQue\BusQue
+        arguments: [ '@implementation' ]

@@ -72,6 +72,7 @@ class FeatureContext implements SnippetAcceptingContext, KernelAwareContext
     public function theQueueIsEmpty()
     {
         $this->implementation->getQueueAdapter()->emptyQueue('test_queue');
+        $this->thereShouldBeNCommandsInTheQueue(0);
     }
 
     /**

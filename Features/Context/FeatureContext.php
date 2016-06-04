@@ -67,9 +67,9 @@ class FeatureContext implements SnippetAcceptingContext, KernelAwareContext
     }
 
     /**
-     * @Given the queue has been emptied
+     * @Given the queue is empty
      */
-    public function theQueueHasBeenEmptied()
+    public function theQueueIsEmpty()
     {
         $this->implementation->getQueueAdapter()->emptyQueue('test_queue');
     }
@@ -139,6 +139,14 @@ class FeatureContext implements SnippetAcceptingContext, KernelAwareContext
     {
         $status = $this->implementation->getQueueAdapter()->getCommandStatus('test_queue', 'test_command_id');
         \PHPUnit_Framework_Assert::assertEquals($status, $arg1);
+    }
+
+    /**
+     * @Then I cancel :arg1
+     */
+    public function iCancel($arg1)
+    {
+        $this->implementation->getQueueAdapter()->purgeCommand('test_queue', $arg1);
     }
 
     /**

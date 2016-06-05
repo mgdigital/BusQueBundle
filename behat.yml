@@ -6,7 +6,7 @@ default:
             paths:
                 - %paths.base%/vendor/mgdigital/busque/features
             contexts:
-                - MGDigital\BusQueBundle\Features\Context\FeatureContext
+                - MGDigital\BusQueBundle\Features\FeatureContext
 
     extensions:
         Behat\Symfony2Extension: ~

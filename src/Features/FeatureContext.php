@@ -1,6 +1,6 @@
 <?php
 
-namespace MGDigital\BusQueBundle\Features\Context;
+namespace MGDigital\BusQueBundle\Features;
 
 use Behat\Symfony2Extension\Context\KernelAwareContext;
 use MGDigital\BusQue\Features\Context\AbstractFeatureContext;

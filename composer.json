@@ -2,19 +2,23 @@
     "name": "mgdigital/busque-bundle",
     "autoload": {
         "psr-4": {
-            "MGDigital\\BusQueBundle\\": ""
+            "MGDigital\\BusQueBundle\\": "src"
         }
     },
     "require": {
         "php": ">=7.0",
-        "mgdigital/busque": "^0.1.11",
+        "mgdigital/busque": "^0.1.12",
         "league/tactician-bundle": "~0.4",
         "snc/redis-bundle": "~1.0|~2.0",
-        "symfony/framework-bundle": "^2.7|~3.0"
+        "symfony/framework-bundle": "^2.7|~3.0",
+        "symfony/monolog-bundle": "~2.11"
     },
     "require-dev": {
         "behat/behat": "~3.0",
-        "behat/symfony2-extension": "~2.0"
+        "behat/symfony2-extension": "~2.0",
+        "phpspec/prophecy": "~1.6",
+        "phpunit/phpunit": "@stable",
+        "squizlabs/php_codesniffer": "~2.6"
     },
     "suggest": {
         "jms/serializer-bundle": "For serialization in json or XML format"

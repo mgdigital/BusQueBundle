@@ -17,8 +17,7 @@ class QueueWorkerCommand extends AbstractCommand
             ->setName('busque:queue_worker')
             ->addArgument('queue', InputArgument::REQUIRED, 'The queue to work on.')
             ->addOption('number', null, InputOption::VALUE_OPTIONAL, 'The number of commands to receive.', null)
-            ->addOption('time', null, InputOption::VALUE_OPTIONAL, 'The time in seconds to run the worker', null)
-        ;
+            ->addOption('time', null, InputOption::VALUE_OPTIONAL, 'The time in seconds to run the worker', null);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

@@ -1,0 +1,12 @@
+framework:
+    secret: secret
+
+snc_redis:
+    clients:
+        busque:
+            type: predis
+            alias: busque
+            dsn: 'redis://localhost'
+            logging: false
+            options:
+                prefix: 'busque'

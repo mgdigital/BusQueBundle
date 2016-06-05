@@ -3,6 +3,8 @@ default:
         busque:
             type: symfony_bundle
             bundle: MGDigitalBusQueBundle
+            paths:
+                - %paths.base%/vendor/mgdigital/busque/features
             contexts:
                 - MGDigital\BusQueBundle\Features\Context\FeatureContext
 

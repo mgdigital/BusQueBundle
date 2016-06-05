@@ -15,8 +15,7 @@ class SchedulerWorkerCommand extends AbstractCommand
         $this
             ->setName('busque:scheduler_worker')
             ->addOption('number', null, InputOption::VALUE_OPTIONAL, 'The number of commands to receive.', null)
-            ->addOption('time', null, InputOption::VALUE_OPTIONAL, 'The time in seconds to run the worker', null)
-        ;
+            ->addOption('time', null, InputOption::VALUE_OPTIONAL, 'The time in seconds to run the worker', null);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

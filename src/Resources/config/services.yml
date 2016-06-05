@@ -51,4 +51,4 @@ services:
 
     busque:
         class: MGDigital\BusQue\BusQue
-        arguments: [ '@implementation' ]
+        arguments: [ '@busque.implementation' ]

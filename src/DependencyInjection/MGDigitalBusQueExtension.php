@@ -21,16 +21,19 @@ class MGDigitalBusQueExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
         $impConfig = $config['implementation'];
-        $implementation = new Definition(Implementation::class, [
-            new Reference($impConfig['queue_name_resolver']),
-            new Reference($impConfig['command_serializer']),
-            new Reference($impConfig['command_id_generator']),
-            new Reference($impConfig['queue_adapter']),
-            new Reference($impConfig['scheduler_adapter']),
-            new Reference($impConfig['clock']),
-            new Reference($impConfig['commandbus_adapter']),
-            new Reference($impConfig['error_handler'])
-        ]);
+        $implementation = new Definition(
+            Implementation::class,
+            [
+                new Reference($impConfig['queue_name_resolver']),
+                new Reference($impConfig['command_serializer']),
+                new Reference($impConfig['command_id_generator']),
+                new Reference($impConfig['queue_adapter']),
+                new Reference($impConfig['scheduler_adapter']),
+                new Reference($impConfig['clock']),
+                new Reference($impConfig['commandbus_adapter']),
+                new Reference($impConfig['error_handler'])
+            ]
+        );
         $implementation->setLazy(true);
         $container->setDefinition('busque.implementation', $implementation);
         $container->setAlias('busque.predis_client', $impConfig['predis_client']);
@@ -45,5 +48,4 @@ class MGDigitalBusQueExtension extends Extension
     {
         return 'busque';
     }
-
 }

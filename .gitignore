@@ -1,2 +1,4 @@
 /bin
 /vendor
+/app/cache
+/app/logs

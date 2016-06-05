@@ -1,0 +1,25 @@
+language: php
+
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+matrix:
+  include:
+    - php: 7.0
+  fast_finish: true
+
+services:
+  - redis-server
+
+before_install:
+  - composer selfupdate
+
+install:
+  - composer install --prefer-source --no-interaction
+
+script:
+  - vendor/squizlabs/php_codesniffer/scripts/phpcs --standard=PSR2 src
+  - vendor/behat/behat/bin/behat

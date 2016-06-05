@@ -12,5 +12,4 @@ class MGDigitalBusQueBundle extends Bundle
     {
         return new MGDigitalBusQueExtension();
     }
-
 }

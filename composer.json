@@ -1,5 +1,6 @@
 {
     "name": "mgdigital/busque-bundle",
+    "type": "symfony-bundle",
     "autoload": {
         "psr-4": {
             "MGDigital\\BusQueBundle\\": "src"

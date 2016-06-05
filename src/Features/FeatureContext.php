@@ -5,8 +5,6 @@ namespace MGDigital\BusQueBundle\Features\Context;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
 use MGDigital\BusQue\Features\Context\AbstractFeatureContext;
 use MGDigital\BusQue\Implementation;
-
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 class FeatureContext extends AbstractFeatureContext implements KernelAwareContext

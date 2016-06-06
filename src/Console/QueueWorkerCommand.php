@@ -16,17 +16,17 @@ class QueueWorkerCommand extends AbstractCommand
         $this
             ->setName('busque:queue_worker')
             ->addArgument('queue', InputArgument::REQUIRED, 'The queue to work on.')
-            ->addOption('number', null, InputOption::VALUE_OPTIONAL, 'The number of commands to receive.', null)
+            ->addOption('limit', null, InputOption::VALUE_OPTIONAL, 'The number of commands to receive.', null)
             ->addOption('time', null, InputOption::VALUE_OPTIONAL, 'The time in seconds to run the worker', null);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $queueName = $input->getArgument('queue');
-        $number = $input->getOption('number');
+        $limit = $input->getOption('limit');
         $time = $input->getOption('time');
         $worker = new QueueWorker($this->getImplementation());
         $output->writeln(sprintf('Working on queue %s...', $queueName));
-        $worker->work($queueName, $number, $time);
+        $worker->work($queueName, $limit, $time);
     }
 }

@@ -14,16 +14,23 @@ class SchedulerWorkerCommand extends AbstractCommand
     {
         $this
             ->setName('busque:scheduler_worker')
-            ->addOption('number', null, InputOption::VALUE_OPTIONAL, 'The number of commands to receive.', null)
-            ->addOption('time', null, InputOption::VALUE_OPTIONAL, 'The time in seconds to run the worker', null);
+            ->addOption('limit', null, InputOption::VALUE_OPTIONAL, 'The number of scheduled commands to queue.', null)
+            ->addOption('time', null, InputOption::VALUE_OPTIONAL, 'The time in seconds to run the worker', null)
+            ->addOption(
+                'throttle', null,
+                InputOption::VALUE_OPTIONAL,
+                'Maximum scheduled commands to queue at a time.',
+                SchedulerWorker::DEFAULT_THROTTLE
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $number = $input->getOption('number');
+        $limit = $input->getOption('limit');
+        $throttle = $input->getOption('throttle');
         $time = $input->getOption('time');
         $worker = new SchedulerWorker($this->getImplementation());
         $output->writeln('Awaiting scheduled commands...');
-        $worker->work($number, $time);
+        $worker->work($limit, $throttle, $time);
     }
 }

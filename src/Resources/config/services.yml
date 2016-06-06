@@ -1,7 +1,7 @@
 services:
 
     busque.queue_name_resolver.classname:
-        class: MGDigital\BusQue\ClassNameQueueNameResolver
+        class: MGDigital\BusQue\QueueResolver\ClassNameQueueResolver
 
     busque.command_serializer.php:
         class: MGDigital\BusQue\Serializer\PHPCommandSerializer

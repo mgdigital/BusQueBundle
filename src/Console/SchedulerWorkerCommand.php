@@ -17,7 +17,8 @@ class SchedulerWorkerCommand extends AbstractCommand
             ->addOption('limit', null, InputOption::VALUE_OPTIONAL, 'The number of scheduled commands to queue.', null)
             ->addOption('time', null, InputOption::VALUE_OPTIONAL, 'The time in seconds to run the worker', null)
             ->addOption(
-                'throttle', null,
+                'throttle',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 'Maximum scheduled commands to queue at a time.',
                 SchedulerWorker::DEFAULT_THROTTLE

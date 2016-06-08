@@ -1,6 +1,6 @@
 <?php
 
-namespace MGDigital\BusQueBundle\Console;
+namespace MGDigital\BusQue\Bundle\Console;
 
 use MGDigital\BusQue\Implementation;
 use Symfony\Component\Console\Command\Command;

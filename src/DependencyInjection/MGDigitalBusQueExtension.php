@@ -1,6 +1,6 @@
 <?php
 
-namespace MGDigital\BusQueBundle\DependencyInjection;
+namespace MGDigital\BusQue\Bundle\DependencyInjection;
 
 use MGDigital\BusQue\Implementation;
 use Symfony\Component\Config\FileLocator;
@@ -21,22 +21,15 @@ class MGDigitalBusQueExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
         $impConfig = $config['implementation'];
-        $implementation = new Definition(
-            Implementation::class,
-            [
-                new Reference($impConfig['queue_name_resolver']),
-                new Reference($impConfig['command_serializer']),
-                new Reference($impConfig['command_id_generator']),
-                new Reference($impConfig['queue_adapter']),
-                new Reference($impConfig['scheduler_adapter']),
-                new Reference($impConfig['clock']),
-                new Reference($impConfig['commandbus_adapter']),
-                new Reference($impConfig['error_handler'])
-            ]
-        );
-        $implementation->setLazy(true);
-        $container->setDefinition('busque.implementation', $implementation);
-        $container->setAlias('busque.predis_client', $impConfig['predis_client']);
+        unset($config['implementation']);
+        foreach ($impConfig as $component => $serviceId) {
+            $container->setAlias("busque.{$component}", $serviceId);
+        }
+        foreach ($config as $section => $params) {
+            foreach ($params as $key => $value) {
+                $container->setParameter("busque.{$section}.{$key}", $value);
+            }
+        }
         $loader = new YamlFileLoader(
             $container,
             new FileLocator(__DIR__ . '/../Resources/config')

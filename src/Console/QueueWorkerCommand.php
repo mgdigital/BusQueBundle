@@ -1,6 +1,6 @@
 <?php
 
-namespace MGDigital\BusQueBundle\Console;
+namespace MGDigital\BusQue\Bundle\Console;
 
 use MGDigital\BusQue\QueueWorker;
 use Symfony\Component\Console\Input\InputArgument;

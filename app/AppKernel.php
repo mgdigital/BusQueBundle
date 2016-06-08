@@ -10,7 +10,7 @@ class AppKernel extends Kernel {
         return [
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new League\Tactician\Bundle\TacticianBundle(),
-            new MGDigital\BusQueBundle\MGDigitalBusQueBundle(),
+            new MGDigital\BusQue\Bundle\MGDigitalBusQueBundle(),
             new Snc\RedisBundle\SncRedisBundle(),
             new Symfony\Bundle\MonologBundle\MonologBundle(),
         ];

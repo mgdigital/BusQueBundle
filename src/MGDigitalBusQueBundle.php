@@ -1,8 +1,8 @@
 <?php
 
-namespace MGDigital\BusQueBundle;
+namespace MGDigital\BusQue\Bundle;
 
-use MGDigital\BusQueBundle\DependencyInjection\MGDigitalBusQueExtension;
+use MGDigital\BusQue\Bundle\DependencyInjection\MGDigitalBusQueExtension;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class MGDigitalBusQueBundle extends Bundle

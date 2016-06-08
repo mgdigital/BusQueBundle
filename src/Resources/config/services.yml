@@ -1,13 +1,34 @@
 services:
 
-    busque.queue_name_resolver.classname:
+    busque.queue_resolver.classname:
         class: MGDigital\BusQue\QueueResolver\ClassNameQueueResolver
+
+    busque.auto_queue_voter:
+        class: MGDigital\BusQue\QueueResolver\SimpleQueueVoter
+        arguments: [ '@busque.auto_queue_resolver', 2 ]
+
+    busque.queue_resolver.default:
+        class: MGDigital\BusQue\QueueResolver\SimpleQueueResolver
+        arguments: [ '%busque.queues.default%' ]
+
+    busque.queue_voter.default:
+        class: MGDigital\BusQue\QueueResolver\SimpleQueueVoter
+        arguments: [ '@busque.queue_resolver.default', 0 ]
+
+    busque.queue_resolver.assembled:
+        class: MGDigital\BusQue\QueueResolver\QueueVoterWithWhitelistResolver
+        arguments:
+            -
+                - '@busque.auto_queue_voter'
+                - '@busque.queue_voter.default'
+            - '%busque.queues.whitelist%'
 
     busque.command_serializer.php:
         class: MGDigital\BusQue\Serializer\PHPCommandSerializer
 
-    busque.command_id_generator.object_hash:
-        class: MGDigital\BusQue\IdGenerator\ObjectHashIdGenerator
+    busque.command_id_generator.md5:
+        class: MGDigital\BusQue\IdGenerator\Md5IdGenerator
+        arguments: [ '@busque.command_serializer.php' ]
 
     busque.queue_adapter.predis:
         class: MGDigital\BusQue\Predis\PredisAdapter
@@ -19,38 +40,120 @@ services:
     busque.system_clock:
         class: MGDigital\BusQue\SystemClock
 
-    busque.clock:
-        alias: busque.system_clock
-
     busque.commandbus_adapter.tactician:
         class: MGDigital\BusQue\Tactician\CommandBusAdapter
         arguments: [ '@tactician.commandbus' ]
 
-    busque.error_handler:
-        class: MGDigital\BusQue\Logging\LoggingErrorHandler
-        arguments: [ '@logger' ]
+    busque.commandbus_adapter.decircularized:
+        class: MGDigital\BusQue\Bundle\AutoQueue\DecircularizedCommandBusAdapter
+        arguments: [ 'busque.base_commandbus_adapter' ]
+        calls:
+            - [ 'setContainer', [ '@service_container' ] ]
 
-    busque.command_handler:
-        class: MGDigital\BusQue\CommandHandler
+    busque.commandbus_adapter.auto_queue:
+        class: MGDigital\BusQue\AutoQueue\AutoQueuingCommandBusAdapter
+        arguments: [ '@busque.commandbus_adapter.decircularized' ]
+
+    busque.auto_queue_decider.classname:
+        class: MGDigital\BusQue\AutoQueue\ClassNameDecider
+        arguments: [ '%busque.auto_queue.classnames%' ]
+
+    busque.auto_queue_decider.approver:
+        class: MGDigital\BusQue\AutoQueue\OrDecider
+        arguments:
+            -
+                - '@busque.auto_queue_decider.classname'
+
+    busque.auto_queue_decider:
+        class: MGDigital\BusQue\AutoQueue\AndDecider
+        arguments:
+            -
+                - '@busque.auto_queue_decider.approver'
+                - '@busque.commandbus_adapter.auto_queue'
+
+    busque.logging_error_handler:
+        class: MGDigital\BusQue\Logging\LoggingErrorHandler
+        arguments: [ '@busque.error_logger' ]
+
+    busque.handler.queued_command:
+        class: MGDigital\BusQue\Handler\QueuedCommandHandler
         arguments: [ '@busque.implementation' ]
         tags:
             - { name: tactician.handler, command: MGDigital\BusQue\QueuedCommand }
+
+    busque.handler.scheduled_command:
+        class: MGDigital\BusQue\Handler\ScheduledCommandHandler
+        arguments: [ '@busque.implementation' ]
+        tags:
             - { name: tactician.handler, command: MGDigital\BusQue\ScheduledCommand }
 
     busque.console.queue_worker_command:
-        class: MGDigital\BusQueBundle\Console\QueueWorkerCommand
+        class: MGDigital\BusQue\Bundle\Console\QueueWorkerCommand
         calls:
             - [ 'setContainer', [ '@service_container' ] ]
         tags:
             - { name: console.command }
 
     busque.console.scheduler_worker_command:
-        class: MGDigital\BusQueBundle\Console\SchedulerWorkerCommand
+        class: MGDigital\BusQue\Bundle\Console\SchedulerWorkerCommand
         calls:
             - [ 'setContainer', [ '@service_container' ] ]
         tags:
             - { name: console.command }
 
+    busque.console.list_queues_command:
+        class: MGDigital\BusQue\Bundle\Console\ListQueuesCommand
+        calls:
+            - [ 'setContainer', [ '@service_container' ] ]
+        tags:
+            - { name: console.command }
+
+    busque.console.show_queue_command:
+        class: MGDigital\BusQue\Bundle\Console\ShowQueueCommand
+        calls:
+            - [ 'setContainer', [ '@service_container' ] ]
+        tags:
+            - { name: console.command }
+
+    busque.console.purge_command_command:
+        class: MGDigital\BusQue\Bundle\Console\PurgeCommandCommand
+        calls:
+            - [ 'setContainer', [ '@service_container' ] ]
+        tags:
+            - { name: console.command }
+
+    busque.console.delete_queue_command:
+        class: MGDigital\BusQue\Bundle\Console\DeleteQueueCommand
+        calls:
+            - [ 'setContainer', [ '@service_container' ] ]
+        tags:
+            - { name: console.command }
+
+    busque.implementation:
+        class: MGDigital\BusQue\Implementation
+        arguments:
+            - '@busque.queue_resolver'
+            - '@busque.command_serializer'
+            - '@busque.command_id_generator'
+            - '@busque.queue_adapter'
+            - '@busque.scheduler_adapter'
+            - '@busque.clock'
+            - '@busque.commandbus_adapter'
+            - '@busque.error_handler'
+
     busque:
         class: MGDigital\BusQue\BusQue
         arguments: [ '@busque.implementation' ]
+
+    busque.tactician.method_inflector:
+        class: MGDigital\BusQue\Tactician\ChainedInflector
+        arguments:
+            -
+                - '@tactician.handler.method_name_inflector.handle_class_name'
+                - '@tactician.handler.method_name_inflector.handle_class_name_without_suffix'
+                - '@tactician.handler.method_name_inflector.handle'
+                - '@tactician.handler.method_name_inflector.invoke'
+
+    busque.tactician.auto_queuing_middleware:
+        class: MGDigital\BusQue\Tactician\AutoQueuingMiddleware
+        arguments: [ '@busque.auto_queue_decider' ]

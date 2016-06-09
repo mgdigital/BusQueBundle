@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e428a87e1add549c2dea8db497c20e3d",
-    "content-hash": "c996f54f9ce29a37195f58277aed5995",
+    "hash": "d85bbf3e6c299244e73780cb98f0d81d",
+    "content-hash": "83b0624e1af3569eefe183299af9a67a",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -327,16 +327,16 @@
         },
         {
             "name": "mgdigital/busque",
-            "version": "v0.1.16",
+            "version": "v0.1.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mgdigital/BusQue.git",
-                "reference": "e71fada248571104c6468f7e8357e9344b5d329a"
+                "reference": "b6555f70305b4d410ff72d8f992c38d63bf130f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mgdigital/BusQue/zipball/e71fada248571104c6468f7e8357e9344b5d329a",
-                "reference": "e71fada248571104c6468f7e8357e9344b5d329a",
+                "url": "https://api.github.com/repos/mgdigital/BusQue/zipball/b6555f70305b4d410ff72d8f992c38d63bf130f7",
+                "reference": "b6555f70305b4d410ff72d8f992c38d63bf130f7",
                 "shasum": ""
             },
             "require": {
@@ -369,7 +369,7 @@
                 "MIT"
             ],
             "description": "A flexible, modern command queue and scheduler for PHP7, built on Redis",
-            "time": "2016-06-09 10:28:45"
+            "time": "2016-06-09 11:01:18"
         },
         {
             "name": "monolog/monolog",

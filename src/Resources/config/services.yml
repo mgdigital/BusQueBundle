@@ -1,7 +1,8 @@
 services:
 
-    busque.queue_resolver.classname:
+    busque.queue_resolver.classmap:
         class: MGDigital\BusQue\QueueResolver\ClassNameQueueResolver
+        arguments: [ '%busque.queues.classmap%' ]
 
     busque.auto_queue_voter:
         class: MGDigital\BusQue\QueueResolver\SimpleQueueVoter

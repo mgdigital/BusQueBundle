@@ -30,6 +30,11 @@ class MGDigitalBusQueExtension extends Extension
                 $container->setParameter("busque.{$section}.{$key}", $value);
             }
         }
+        $whitelist = [$container->getParameter('busque.queues.default')];
+        foreach ($container->getParameter('busque.queues.classmap') as $class => $queueName) {
+            $whitelist[] = $queueName;
+        }
+        $container->setParameter('busque.queues.whitelist', $whitelist);
         $loader = new YamlFileLoader(
             $container,
             new FileLocator(__DIR__ . '/../Resources/config')

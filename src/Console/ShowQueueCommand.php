@@ -29,11 +29,13 @@ class ShowQueueCommand extends AbstractCommand
         $limit = (int) $input->getOption('limit');
         $ids = $busQue->listQueuedIds($queueName, $offset, $limit);
         $totalCount = $busQue->getQueuedCount($queueName);
+        $first = $totalCount ? $offset + 1 : 0;
+        $last = $totalCount ? $first + count($ids) : 0;
         $output->writeln(sprintf(
             'Showing commands queued on "%s" (%d - %d of %d)',
             $queueName,
-            $offset + 1,
-            $offset + 1 + count($ids),
+            $first,
+            $last,
             $totalCount
         ));
         foreach ($ids as $id) {

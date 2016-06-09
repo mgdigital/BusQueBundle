@@ -9,4 +9,4 @@ snc_redis:
             dsn: 'redis://localhost'
             logging: false
             options:
-                prefix: 'busque'
+                profile: 2.6

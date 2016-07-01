@@ -1,12 +1,12 @@
 services:
 
     busque.queue_resolver.classmap:
-        class: MGDigital\BusQue\QueueResolver\ClassNameQueueResolver
+        class: MGDigital\BusQue\QueueResolver\ClassMapQueueResolver
         arguments: [ '%busque.queues.classmap%' ]
 
-    busque.auto_queue_voter:
+    busque.queue_voter.classmap:
         class: MGDigital\BusQue\QueueResolver\SimpleQueueVoter
-        arguments: [ '@busque.auto_queue_resolver', 2 ]
+        arguments: [ '@busque.queue_resolver.classmap', 2 ]
 
     busque.queue_resolver.default:
         class: MGDigital\BusQue\QueueResolver\SimpleQueueResolver
@@ -20,7 +20,7 @@ services:
         class: MGDigital\BusQue\QueueResolver\QueueVoterWithWhitelistResolver
         arguments:
             -
-                - '@busque.auto_queue_voter'
+                - '@busque.queue_voter.classmap'
                 - '@busque.queue_voter.default'
             - '%busque.queues.whitelist%'
 
@@ -44,33 +44,6 @@ services:
     busque.commandbus_adapter.tactician:
         class: MGDigital\BusQue\Tactician\CommandBusAdapter
         arguments: [ '@tactician.commandbus' ]
-
-    busque.commandbus_adapter.decircularized:
-        class: MGDigital\BusQue\Bundle\AutoQueue\DecircularizedCommandBusAdapter
-        arguments: [ 'busque.base_commandbus_adapter' ]
-        calls:
-            - [ 'setContainer', [ '@service_container' ] ]
-
-    busque.commandbus_adapter.auto_queue:
-        class: MGDigital\BusQue\AutoQueue\AutoQueuingCommandBusAdapter
-        arguments: [ '@busque.commandbus_adapter.decircularized' ]
-
-    busque.auto_queue_decider.classname:
-        class: MGDigital\BusQue\AutoQueue\ClassNameDecider
-        arguments: [ '%busque.auto_queue.classnames%' ]
-
-    busque.auto_queue_decider.approver:
-        class: MGDigital\BusQue\AutoQueue\OrDecider
-        arguments:
-            -
-                - '@busque.auto_queue_decider.classname'
-
-    busque.auto_queue_decider:
-        class: MGDigital\BusQue\AutoQueue\AndDecider
-        arguments:
-            -
-                - '@busque.auto_queue_decider.approver'
-                - '@busque.commandbus_adapter.auto_queue'
 
     busque.logging_error_handler:
         class: MGDigital\BusQue\Logging\LoggingErrorHandler
@@ -154,7 +127,3 @@ services:
                 - '@tactician.handler.method_name_inflector.handle_class_name_without_suffix'
                 - '@tactician.handler.method_name_inflector.handle'
                 - '@tactician.handler.method_name_inflector.invoke'
-
-    busque.tactician.auto_queuing_middleware:
-        class: MGDigital\BusQue\Tactician\AutoQueuingMiddleware
-        arguments: [ '@busque.auto_queue_decider' ]

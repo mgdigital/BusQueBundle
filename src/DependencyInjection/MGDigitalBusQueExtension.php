@@ -37,6 +37,12 @@ class MGDigitalBusQueExtension extends Extension
             new FileLocator(__DIR__ . '/../Resources/config')
         );
         $loader->load('services.yml');
+        $predisClientClass = $container->hasParameter('snc_redis.client.class') ?
+            $container->getParameter('snc_redis.client.class') : 'Predis\Client';
+        if ($predisClientClass === 'Predis\Client') {
+            $predisClientClass = 'MGDigital\BusQue\Predis\Client';
+        }
+        $container->setParameter('snc_redis.client.class', $predisClientClass);
     }
 
     public function getAlias()

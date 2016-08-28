@@ -14,7 +14,12 @@ matrix:
 services:
   - redis-server
 
+addons:
+  hosts:
+    - redis
+
 before_install:
+  - echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - composer selfupdate
 
 install:

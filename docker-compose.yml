@@ -1,0 +1,15 @@
+version: "2"
+services:
+    php:
+        container_name: busque-bundle-php
+        image: mgdigital/busque-php:latest
+        volumes:
+            - ./:/busque-bundle/
+        working_dir: /busque-bundle
+        depends_on:
+            - redis
+        links:
+            - redis
+    redis:
+        container_name: busque-bundle-redis
+        image: redis:3.2-alpine

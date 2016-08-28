@@ -1,0 +1,71 @@
+parameters:
+
+    busque.adapter_class: 'MGDigital\BusQue\Redis\PHPRedis\PHPRedisAdapter'
+    busque.command_serializer_class: 'MGDigital\BusQue\Serializer\PHPCommandSerializer'
+    busque.commandbus_adapter_class: 'MGDigital\BusQue\Tactician\CommandBusAdapter'
+    busque.clock_class: 'MGDigital\BusQue\SystemClock'
+    busque.redis_namespace: 'busque_%kernel.environment%'
+
+services:
+
+    busque.queue_resolver.classmap:
+        class: MGDigital\BusQue\QueueResolver\ClassMapQueueResolver
+        arguments: [ '%busque.queues.classmap%' ]
+
+    busque.queue_voter.classmap:
+        class: MGDigital\BusQue\QueueResolver\SimpleQueueVoter
+        arguments: [ '@busque.queue_resolver.classmap', 2 ]
+
+    busque.queue_resolver.default:
+        class: MGDigital\BusQue\QueueResolver\SimpleQueueResolver
+        arguments: [ '%busque.queues.default%' ]
+
+    busque.queue_voter.default:
+        class: MGDigital\BusQue\QueueResolver\SimpleQueueVoter
+        arguments: [ '@busque.queue_resolver.default', 0 ]
+
+    busque.queue_resolver:
+        class: MGDigital\BusQue\QueueResolver\QueueVoterWithWhitelistResolver
+        arguments:
+            -
+                - '@busque.queue_voter.classmap'
+                - '@busque.queue_voter.default'
+            - '%busque.queues.whitelist%'
+
+    busque.command_serializer:
+        class: '%busque.command_serializer_class%'
+
+    busque.command_id_generator.md5:
+        class: MGDigital\BusQue\IdGenerator\Md5IdGenerator
+        arguments: [ '@busque.command_serializer' ]
+
+    busque.redis_adapter:
+        class: '%busque.adapter_class%'
+        arguments: [ '@busque.redis_client' ]
+
+    busque.driver:
+        class: MGDigital\BusQue\Redis\RedisDriver
+        arguments: [ '@busque.redis_adapter', '%busque.redis_namespace%' ]
+
+    busque.clock:
+        class: '%busque.clock_class%'
+
+    busque.commandbus_adapter:
+        class: '%busque.commandbus_adapter_class%'
+        arguments: [ '@busque.commandbus' ]
+
+    busque.implementation:
+        class: MGDigital\BusQue\Implementation
+        arguments:
+            - '@busque.queue_resolver'
+            - '@busque.command_serializer'
+            - '@busque.command_id_generator'
+            - '@busque.driver'
+            - '@busque.driver'
+            - '@busque.clock'
+            - '@busque.commandbus_adapter'
+            - '@busque.logger'
+
+    busque:
+        class: MGDigital\BusQue\BusQue
+        arguments: [ '@busque.implementation' ]

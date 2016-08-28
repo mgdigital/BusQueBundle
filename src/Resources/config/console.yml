@@ -1,0 +1,43 @@
+services:
+
+    busque.console.queue_worker_command:
+        class: MGDigital\BusQue\Bundle\Console\QueueWorkerCommand
+        calls:
+            - [ 'setContainer', [ '@service_container' ] ]
+        tags:
+            - { name: console.command }
+
+    busque.console.scheduler_worker_command:
+        class: MGDigital\BusQue\Bundle\Console\SchedulerWorkerCommand
+        calls:
+            - [ 'setContainer', [ '@service_container' ] ]
+        tags:
+            - { name: console.command }
+
+    busque.console.list_queues_command:
+        class: MGDigital\BusQue\Bundle\Console\ListQueuesCommand
+        calls:
+            - [ 'setContainer', [ '@service_container' ] ]
+        tags:
+            - { name: console.command }
+
+    busque.console.show_queue_command:
+        class: MGDigital\BusQue\Bundle\Console\ShowQueueCommand
+        calls:
+            - [ 'setContainer', [ '@service_container' ] ]
+        tags:
+            - { name: console.command }
+
+    busque.console.purge_command_command:
+        class: MGDigital\BusQue\Bundle\Console\PurgeCommandCommand
+        calls:
+            - [ 'setContainer', [ '@service_container' ] ]
+        tags:
+            - { name: console.command }
+
+    busque.console.delete_queue_command:
+        class: MGDigital\BusQue\Bundle\Console\DeleteQueueCommand
+        calls:
+            - [ 'setContainer', [ '@service_container' ] ]
+        tags:
+            - { name: console.command }

@@ -10,7 +10,7 @@
     },
     "require": {
         "php": ">=7.0",
-        "mgdigital/busque": "^0.1.19",
+        "mgdigital/busque": "^0.2.2",
         "league/tactician-bundle": "~0.4",
         "snc/redis-bundle": "~1.0|~2.0",
         "symfony/framework-bundle": "^2.7|~3.0",
@@ -21,10 +21,8 @@
         "behat/symfony2-extension": "~2.0",
         "phpspec/prophecy": "~1.6",
         "phpunit/phpunit": "@stable",
+        "predis/predis": "~1.0",
         "squizlabs/php_codesniffer": "~2.6"
-    },
-    "suggest": {
-        "jms/serializer-bundle": "For serialization in json or XML format"
     },
     "config": {
         "bin-dir": "bin"

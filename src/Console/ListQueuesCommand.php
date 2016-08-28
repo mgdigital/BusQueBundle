@@ -29,7 +29,7 @@ class ListQueuesCommand extends AbstractCommand
             $table->addRow([
                 $queueName,
                 $busQue->getQueuedCount($queueName),
-                $busQue->getInProgressCount($queueName)
+                count($busQue->listInProgressIds($queueName))
             ]);
         }
         $table->render();

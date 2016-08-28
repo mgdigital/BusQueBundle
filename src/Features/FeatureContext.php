@@ -3,11 +3,11 @@
 namespace MGDigital\BusQue\Bundle\Features;
 
 use Behat\Symfony2Extension\Context\KernelAwareContext;
-use MGDigital\BusQue\Features\Context\AbstractFeatureContext;
+use MGDigital\BusQue\Features\Context\AbstractBaseContext;
 use MGDigital\BusQue\Implementation;
 use Symfony\Component\HttpKernel\KernelInterface;
 
-class FeatureContext extends AbstractFeatureContext implements KernelAwareContext
+class FeatureContext extends AbstractBaseContext implements KernelAwareContext
 {
 
     const SERVICE_ID = 'busque.implementation';

@@ -26,6 +26,6 @@ class DeleteQueueCommand extends AbstractCommand
             $queueName,
             $busQue->getQueuedCount($queueName)
         ));
-        $busQue->clearQueue($queueName);
+        $busQue->deleteQueue($queueName);
     }
 }

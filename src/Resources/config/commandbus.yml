@@ -1,0 +1,22 @@
+services:
+
+    busque.tactician.method_inflector:
+        class: MGDigital\BusQue\Tactician\ChainedInflector
+        arguments:
+            -
+                - '@tactician.handler.method_name_inflector.handle_class_name'
+                - '@tactician.handler.method_name_inflector.handle_class_name_without_suffix'
+                - '@tactician.handler.method_name_inflector.handle'
+                - '@tactician.handler.method_name_inflector.invoke'
+
+    busque.handler.queued_command:
+        class: MGDigital\BusQue\Handler\QueuedCommandHandler
+        arguments: [ '@busque.implementation' ]
+        tags:
+            - { name: tactician.handler, command: MGDigital\BusQue\QueuedCommand }
+
+    busque.handler.scheduled_command:
+        class: MGDigital\BusQue\Handler\ScheduledCommandHandler
+        arguments: [ '@busque.implementation' ]
+        tags:
+            - { name: tactician.handler, command: MGDigital\BusQue\ScheduledCommand }

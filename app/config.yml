@@ -4,9 +4,11 @@ framework:
 snc_redis:
     clients:
         busque:
-            type: predis
+            type: phpredis
             alias: busque
-            dsn: 'redis://localhost'
-            logging: false
+            dsn: 'redis://redis'
             options:
-                profile: 2.6
+                connection_persistent: true
+                connection_timeout: 120
+                read_write_timeout: 120
+                profile: 3.2

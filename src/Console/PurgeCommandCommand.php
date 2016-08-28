@@ -24,10 +24,9 @@ class PurgeCommandCommand extends AbstractCommand
         $id = $input->getArgument('id');
         $busQue = new BusQue($this->getImplementation());
         $output->writeln(sprintf(
-            'Purging command ID "%s" on queue "%s" (current status: %s)',
+            'Purging command ID "%s" on queue "%s"',
             $id,
-            $queueName,
-            $busQue->getCommandStatus($queueName, $id)
+            $queueName
         ));
         $busQue->purgeCommand($queueName, $id);
     }

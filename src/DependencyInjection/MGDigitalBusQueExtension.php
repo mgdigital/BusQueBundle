@@ -2,12 +2,9 @@
 
 namespace MGDigital\BusQue\Bundle\DependencyInjection;
 
-use MGDigital\BusQue\Implementation;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class MGDigitalBusQueExtension extends Extension
@@ -36,13 +33,9 @@ class MGDigitalBusQueExtension extends Extension
             $container,
             new FileLocator(__DIR__ . '/../Resources/config')
         );
-        $loader->load('services.yml');
-        $predisClientClass = $container->hasParameter('snc_redis.client.class') ?
-            $container->getParameter('snc_redis.client.class') : 'Predis\Client';
-        if ($predisClientClass === 'Predis\Client') {
-            $predisClientClass = 'MGDigital\BusQue\Predis\Client';
-        }
-        $container->setParameter('snc_redis.client.class', $predisClientClass);
+        $loader->load('busque.yml');
+        $loader->load('commandbus.yml');
+        $loader->load('console.yml');
     }
 
     public function getAlias()

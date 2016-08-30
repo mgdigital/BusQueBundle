@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2dd9efddc717857a7acf9888b3f1d6b3",
-    "content-hash": "d5b759311e91c19a1fafdf5f9eefb2a6",
+    "hash": "2d2c1a38251100f75cf75d5a5673ae09",
+    "content-hash": "2a6272eadd30b0270f0db1182eb7ab8a",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -327,26 +327,26 @@
         },
         {
             "name": "mgdigital/busque",
-            "version": "v0.2.2",
+            "version": "v0.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mgdigital/BusQue.git",
-                "reference": "9044e9ddcb8781b6a45848be2d05094d24fdd409"
+                "reference": "dafac01f8cb308e044f036f2c1318443948458e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mgdigital/BusQue/zipball/9044e9ddcb8781b6a45848be2d05094d24fdd409",
-                "reference": "9044e9ddcb8781b6a45848be2d05094d24fdd409",
+                "url": "https://api.github.com/repos/mgdigital/BusQue/zipball/dafac01f8cb308e044f036f2c1318443948458e2",
+                "reference": "dafac01f8cb308e044f036f2c1318443948458e2",
                 "shasum": ""
             },
             "require": {
-                "league/tactician": "~1.0",
                 "php": ">=7.0",
                 "psr/log": "~1.0"
             },
             "require-dev": {
                 "behat/behat": "~3.0",
                 "henrikbjorn/phpspec-code-coverage": "^3.0",
+                "league/tactician": "~1.0",
                 "phpspec/phpspec": "~3.0",
                 "phpunit/phpunit": "~5.1",
                 "predis/predis": "~1.0",
@@ -368,7 +368,7 @@
                 "MIT"
             ],
             "description": "A flexible, modern command queue and scheduler for PHP7, built on Redis",
-            "time": "2016-08-28 19:36:29"
+            "time": "2016-08-30 14:13:47"
         },
         {
             "name": "monolog/monolog",
